@@ -109,6 +109,7 @@ qcr.results.joined <- qcr.results.ext |>
     dplyr::mutate(localityID=stringr::str_replace_all(localityID,"MG","Site"),localitySite=stringr::str_replace_all(localitySite,"MG","Site")) |>
     dplyr::mutate(localityID=glue::glue("{localityID}-{nickname}"), localitySite=stringr::str_replace_all(localitySite,"-",glue::glue("-{nickname}-")))
 
+qcr.results.joined |> filter(extractionTubeLabel=="10.06.19/01")
 
 # get df of names 
 qcr.results.names <- qcr.results.joined |> dplyr::distinct(localityID,localitySite,extractionTubeLabel) 
@@ -128,26 +129,31 @@ qcr.results.by.extraction <- qcr.results.joined |>
     dplyr::ungroup() |>
     dplyr::arrange(localitySite,extractionTubeLabel,assay,desc(copiesLitre))
 # qcr.results.by.extraction |> filter(localitySite=="Site02-Msauzi-A" & assay=="leucostictus") |> print(n=Inf)
+qcr.results.by.extraction 
+
+#########################
+##### SUMMARY STATS #####
+#########################
 
 
 # function to summarise by grouping var ()
 summarise_qpcr <- function(df,grouping) {
     df.prop <- df |> 
-        group_by({{grouping}}) |>
-        mutate(copiesLitreTotal=sum(copiesLitre)) |>
-        ungroup() |>
-        group_by(assay,{{grouping}},copiesLitreTotal) |>
-        summarise(copiesLitreSpecies=sum(copiesLitre),
+        dplyr::group_by({{grouping}}) |>
+        dplyr::mutate(copiesLitreTotal=sum(copiesLitre)) |>
+        dplyr::ungroup() |>
+        dplyr::group_by(assay,{{grouping}},copiesLitreTotal) |>
+        dplyr::summarise(copiesLitreSpecies=sum(copiesLitre),
             nFilterReps=length(unique(extractionTubeLabel)),
             nFilterRepsPositive=length(unique(extractionTubeLabel[nPcrRepsPositive>0])),
             nPcrReps=n(),
             nPcrRepsPositive=length(which(copiesLitre>0)),
             .groups="drop") |>
-        mutate(proportion=copiesLitreSpecies/copiesLitreTotal) |> 
-        arrange({{grouping}},assay) |>
-        select({{grouping}},assay,copiesLitreSpecies,proportion,nFilterReps,nFilterRepsPositive,nPcrReps,nPcrRepsPositive) |>
-        rename(group={{grouping}},species=assay,copiesTotal=copiesLitreSpecies) |>
-        mutate(proportion=if_else(is.nan(proportion),0,proportion))
+        dplyr::mutate(proportion=copiesLitreSpecies/copiesLitreTotal) |> 
+        dplyr::arrange({{grouping}},assay) |>
+        dplyr::select({{grouping}},assay,copiesLitreSpecies,proportion,nFilterReps,nFilterRepsPositive,nPcrReps,nPcrRepsPositive) |>
+        dplyr::rename(group={{grouping}},species=assay,copiesTotal=copiesLitreSpecies) |>
+        dplyr::mutate(proportion=if_else(is.nan(proportion),0,proportion))
 return(df.prop)
 } 
 
@@ -165,29 +171,30 @@ qcr.results.summarised <- qcr.results.by.extraction |> summarise_qpcr(grouping=l
 
 
 # format the tissues
-tissues.master.format <- tissues.master |> filter(eventID %in% pull(qcr.results.ext,eventID),genus=="Oreochromis",identifiedBy=="mtDNA",!is.na(specificEpithet)) |>
-        left_join(distinct(events.master,eventID,localityID,localitySite,nickname),by="eventID") |>
-        mutate(localityID=str_replace_all(localityID,"MG","Site"),localitySite=str_replace_all(localitySite,"MG","Site")) |>
-        mutate(localityID=paste(localityID,nickname,sep="-"), localitySite=str_replace_all(localitySite,"-",paste0("-",nickname,"-")))
+tissues.master.format <- tissues.master |> 
+    dplyr::filter(eventID %in% dplyr::pull(qcr.results.ext,eventID),genus=="Oreochromis",identifiedBy=="mtDNA",!is.na(specificEpithet)) |>
+    dplyr::left_join(distinct(events.master,eventID,localityID,localitySite,nickname),by="eventID") |>
+    dplyr::mutate(localityID=str_replace_all(localityID,"MG","Site"),localitySite=stringr::str_replace_all(localitySite,"MG","Site")) |>
+    dplyr::mutate(localityID=paste(localityID,nickname,sep="-"),localitySite=stringr::str_replace_all(localitySite,"-",glue::glue("-{nickname}-")))
 
 # numbers
-tissues.master.format |> glimpse()
-tissues.master.format |> group_by(localitySite) |> summarise(n=n()) 
-tissues.master.format |> group_by(localitySite) |> summarise(n=n()) |> pull(n) |> mean()
-tissues.master.format |> distinct(specificEpithet,localitySite) |> group_by(specificEpithet) |> summarise(n=n())
-tissues.master.format |> distinct(localitySite) 
+tissues.master.format |> dplyr::glimpse()
+tissues.master.format |> dplyr::group_by(localitySite) |> dplyr::summarise(n=n()) 
+tissues.master.format |> dplyr::group_by(localitySite) |> dplyr::summarise(n=n()) |> dplyr::pull(n) |> mean()
+tissues.master.format |> dplyr::distinct(specificEpithet,localitySite) |> dplyr::group_by(specificEpithet) |> dplyr::summarise(n=n())
+tissues.master.format |> dplyr::distinct(localitySite) 
 
 
 # summarise tissues
 summarise_tissues <- function(df,grouping) {
     df.bin <- df |> 
-        select({{grouping}},specificEpithet) |>
-        group_by({{grouping}},specificEpithet) |>
-        count() |> 
-        pivot_wider(names_from=specificEpithet,values_from=n,values_fill=0) |>
-        mutate(across(c(niloticus,urolepis,leucostictus),~if_else(.x>0,1,0))) |>
-        ungroup() |>
-        rename(group={{grouping}})
+        dplyr::select({{grouping}},specificEpithet) |>
+        dplyr::group_by({{grouping}},specificEpithet) |>
+        dplyr::count() |> 
+        tidyr::pivot_wider(names_from=specificEpithet,values_from=n,values_fill=0) |>
+        dplyr::mutate(across(c(niloticus,urolepis,leucostictus),~if_else(.x>0,1,0))) |>
+        dplyr::ungroup() |>
+        dplyr::rename(group={{grouping}})
 return(df.bin)
 }
 
@@ -198,10 +205,10 @@ tissues.binary <- tissues.master.format |> summarise_tissues(grouping=localitySi
 
 # add tissues data to SUMMARISED
 qcr.results.summarised.tissues <- qcr.results.summarised |> 
-    left_join(pivot_longer(tissues.binary,cols=c(niloticus,urolepis,leucostictus),names_to="species",values_to="presence"),by=c("group","species")) |>
-    group_by(group) |>
-    mutate(nPcrRepsPositiveByGroup=sum(nPcrRepsPositive)) |> 
-    ungroup()
+    dplyr::left_join(pivot_longer(tissues.binary,cols=c(niloticus,urolepis,leucostictus),names_to="species",values_to="presence"),by=c("group","species")) |>
+    dplyr::group_by(group) |>
+    dplyr::mutate(nPcrRepsPositiveByGroup=sum(nPcrRepsPositive)) |> 
+    dplyr::ungroup()
 
 # add tissues data to BY EXTRACTION
 #qcr.results.summarised.tissues <- qcr.results.by.extraction |> 
@@ -214,61 +221,63 @@ qcr.results.summarised.tissues <- qcr.results.summarised |>
 
 
 # format the events
-events.master |> distinct(localitySite,localityID,nickname,fieldID,decimalLatitude,decimalLongitude,year,month,day,waterBody) |>
-    mutate(group=str_replace_all(localitySite,"MG","Site"),group=str_replace_all(group,"-",paste0("-",nickname,"-"))) |>
-    filter(group %in% pull(qcr.results.names,localitySite)) |>
+events.master |> 
+    dplyr::distinct(localitySite,localityID,nickname,fieldID,decimalLatitude,decimalLongitude,year,month,day,waterBody) |>
+    dplyr::mutate(group=str_replace_all(localitySite,"MG","Site"),group=str_replace_all(group,"-",glue::glue("-{nickname}-"))) |>
+    dplyr::filter(group %in% pull(qcr.results.names,localitySite)) |>
     tidyr::separate(col=group,into=c("site","name","pond"),sep="-",remove=TRUE) |>
-    mutate(samplingDate=ymd(paste(year,month,day,sep="-"))) |>
-    mutate(decimalLatLon=paste(round(decimalLatitude,digits=3),round(decimalLongitude,digits=3),sep=", ")) |>
+    dplyr::mutate(samplingDate=ymd(paste(year,month,day,sep="-"))) |>
+    dplyr::mutate(decimalLatLon=paste(round(decimalLatitude,digits=3),round(decimalLongitude,digits=3),sep=", ")) |>
     #group_by(site,name) |>
     #    mutate(numberPonds=n()) |>
     #    ungroup() |>
-    arrange(site,name,pond) |>
-    select(site,name,pond,fieldID,waterBody,samplingDate,decimalLatLon) |>
+    dplyr::arrange(site,name,pond) |>
+    dplyr::select(site,name,pond,fieldID,waterBody,samplingDate,decimalLatLon) |>
     #write_csv(here("temp/sampling-sites-summarised.csv"))
-    mutate(samplingDate=as.character(samplingDate)) |>
-    rename(Site=site,Name=name,Pond=pond,`Field ID code`=fieldID,Drainage=waterBody,`Sampling date (ymd)`=samplingDate,`Location (decimal lat/lon)`=decimalLatLon) |>
-    xtable(caption="blahhh", digits=rep(0,8)) |>
+    dplyr::mutate(samplingDate=as.character(samplingDate)) |>
+    dplyr::rename(Site=site,Name=name,Pond=pond,`Field ID code`=fieldID,Drainage=waterBody,`Sampling date (ymd)`=samplingDate,`Location (decimal lat/lon)`=decimalLatLon) |>
+    xtable::xtable(caption="blahhh", digits=rep(0,8)) |>
     print.xtable(include.rownames=FALSE,booktabs=TRUE,sanitize.text.function=identity,caption.placement="top",size="tiny")
 
 # get status
-qcr.results.summarised.tissues |> group_by(species) |> summarise(n=length(which(copiesTotal>0)),tot=n(),prop=n/tot)
-qcr.results.summarised.tissues |> group_by(species) |> summarise(n=length(which(proportion>0.1)),tot=n(),prop=n/tot)
-qcr.results.summarised.tissues |> group_by(species) |> summarise(n=length(which(proportion>0.9)),tot=n(),prop=n/tot)
-qcr.results.summarised.tissues |> group_by(group) |> summarise(n=length(which(copiesTotal>0))) |> group_by(as.factor(n)) |> summarise(count=n()) |> mutate(tot=sum(count),prop=count/tot)
-qcr.results.summarised.tissues |> filter(presence==1 & copiesTotal==0)
-qcr.results.summarised.tissues |> filter(presence==1 & copiesTotal>0) |> print(n=Inf)
+qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(copiesTotal>0)),tot=n(),prop=n/tot)
+qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(proportion>0.1)),tot=n(),prop=n/tot)
+qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(proportion>0.9)),tot=n(),prop=n/tot)
+qcr.results.summarised.tissues |> dplyr::group_by(group) |> dplyr::summarise(n=length(which(copiesTotal>0))) |> dplyr::group_by(n) |> dplyr::summarise(count=n()) |> dplyr::mutate(tot=sum(count),prop=count/tot)
+qcr.results.summarised.tissues |> dplyr::filter(presence==1 & copiesTotal==0)
+qcr.results.summarised.tissues |> dplyr::filter(presence==1 & copiesTotal>0) |> print(n=Inf)
 
 
 # write out the results for Appendix
 qcr.results.summarised.tissues |> 
-    mutate(filterPositive=paste(nFilterRepsPositive,nFilterReps,sep="/"),pcrPositive=paste(nPcrRepsPositive,nPcrReps,sep="/")) |>
-    group_by(group) |>
-        mutate(maxProportion=max(proportion),dominantSpecies=if_else(maxProportion>0,species[which(proportion==maxProportion)],"NA")) |> #
-        ungroup() |>
-    mutate(copiesTotal=round(copiesTotal,digits=0),proportion=round(proportion,digits=4)) |>
+    dplyr::mutate(filterPositive=paste(nFilterRepsPositive,nFilterReps,sep="/"),pcrPositive=paste(nPcrRepsPositive,nPcrReps,sep="/")) |>
+    dplyr::group_by(group) |>
+        dplyr::mutate(maxProportion=max(proportion),dominantSpecies=if_else(maxProportion>0,species[which(proportion==maxProportion)],"NA")) |> #
+        dplyr::ungroup() |>
+    dplyr::mutate(copiesTotal=round(copiesTotal,digits=0),proportion=round(proportion,digits=4)) |>
     tidyr::separate(col=group,into=c("site","name","pond"),sep="-",remove=TRUE) |>
-    select(-dominantSpecies,-maxProportion,-nPcrRepsPositiveByGroup,-nFilterReps,-nFilterRepsPositive,-nPcrReps,-nPcrRepsPositive) |>
-    arrange(site,name,pond,desc(proportion)) |>
+    dplyr::select(-dominantSpecies,-maxProportion,-nPcrRepsPositiveByGroup,-nFilterReps,-nFilterRepsPositive,-nPcrReps,-nPcrRepsPositive) |>
+    dplyr::arrange(site,name,pond,desc(proportion)) |>
     #write_csv(here("temp/qcr-results-summarised.csv"))
-    mutate(proportion=round(proportion*100,digits=1)) |>
-    mutate(presence=if_else(is.na(presence),"",as.character(presence))) |>
+    dplyr::mutate(proportion=round(proportion*100,digits=1)) |>
+    dplyr::mutate(presence=dplyr::if_else(is.na(presence),"",as.character(presence))) |>
     #mutate(presence=as.character(presence),presence=str_replace_all(presence,NA,"")) |>
-    rename(Site=site,Name=name,Pond=pond,Species=species,`Total copies`=copiesTotal,`Proportion (%)`=proportion,`Species presence`=presence,`Positive filters (n/total)`=filterPositive,`Positive PCRs (n/total)`=pcrPositive) |>
-    mutate(across(where(is.numeric),~prettyNum(.x,big.mark=","))) |>
-    xtable(caption="blahhh", digits=rep(0,10)) |>
+    dplyr::rename(Site=site,Name=name,Pond=pond,Species=species,`Total copies`=copiesTotal,`Proportion (%)`=proportion,`Species presence`=presence,`Positive filters (n/total)`=filterPositive,`Positive PCRs (n/total)`=pcrPositive) |>
+    dplyr::mutate(across(where(is.numeric),~prettyNum(.x,big.mark=","))) |>
+    xtable::xtable(caption="blahhh", digits=rep(0,10)) |>
     print.xtable(include.rownames=FALSE,booktabs=TRUE,sanitize.text.function=identity,caption.placement="top",size="tiny")
 
-
+############################################### 
+###############################################
 
 # plot logistic glm
 qcr.results.summarised.tissues |> 
-    filter(nPcrRepsPositiveByGroup>0 & !is.na(presence)) |>
+    dplyr::filter(nPcrRepsPositiveByGroup>0 & !is.na(presence)) |>
     #ggplot(aes(x=proportion,y=presence)) + 
-    ggplot(aes(x=log(copiesTotal+1),y=presence)) + 
-    geom_point() + 
-    stat_smooth(method="glm", method.args=list(family="binomial"), se=TRUE) +
-    facet_wrap(vars(species),scales="free")
+    ggplot2::ggplot(aes(x=log(copiesTotal+1),y=presence)) + 
+        geom_point() + 
+        stat_smooth(method="glm", method.args=list(family="binomial"), se=TRUE) +
+        facet_wrap(vars(species),scales="free")
 
 # check outliers
 qcr.results.summarised.tissues |> filter(presence==1 & proportion<0.05)

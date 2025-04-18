@@ -1,15 +1,19 @@
-setwd("/Users/bzmjg/Desktop/Live_Manuscripts/Rupert_eDNA/Fish_eDNA_model")
+#!/usr/bin/env Rscript
 
-library(ggplot2)
-library(ggpubr)
-library(dplyr)
-library(car)
-library(emmeans)
-library(lme4)
-library(lmerTest)
-library(DHARMa)
+#####################
+##### LOAD LIBS #####
+#####################
 
-ModelData_All <- read.table("ModelData_19Oct2024.txt",header=TRUE,fill=TRUE,sep="\t",check.names=FALSE)
+library("ggplot2")
+library("ggpubr")
+library("dplyr")
+library("car")
+library("emmeans")
+library("lme4")
+library("lmerTest")
+library("DHARMa")
+
+ModelData_All <- read.table(here::here("temp/ModelData_19Oct2024.tsv"),header=TRUE,fill=TRUE,sep="\t",check.names=FALSE)
 
 ### First estimate proportions of each species across all collected sites
 
@@ -103,7 +107,8 @@ anova(ModelUro2)
 ModelData_All_FC_Proportion$Target_present_in_fish<-as.factor(ModelData_All_FC_Proportion$Target_present_in_fish)
 
 plot1 <- ggplot(ModelData_All_FC_Proportion, aes(y=copies_l_water_4th, x=Target_present_in_fish)) + 
-  geom_boxplot(aes(fill = assay)) + 
+  geom_boxplot(aes(fill = assay),outliers = FALSE) + 
+  geom_jitter(height=0,width=0.3,shape=1) +
   facet_grid(~factor(assay, levels=c('niloticus', 'urolepis', 'leucostictus'))) +
   theme_classic() +
   scale_fill_manual(values=c("gold", "steelblue2", "red")) + # set the color of the values manualy
@@ -114,7 +119,8 @@ plot1
 ModelData_All_FC_Proportion2 <- ModelData_All_FC_Proportion[complete.cases(ModelData_All_FC_Proportion), ]
 
 plot2 <- ggplot(ModelData_All_FC_Proportion2, aes(y=proportion, x=Target_present_in_fish)) + 
-  geom_boxplot(aes(fill = assay)) + 
+  geom_boxplot(aes(fill = assay),outliers = FALSE) + 
+  geom_jitter(height=0,width=0.3,shape=1) +
   facet_grid(~factor(assay, levels=c('niloticus', 'urolepis', 'leucostictus'))) +
   theme_classic() +
   scale_fill_manual(values=c("gold", "steelblue2", "red")) + # set the color of the values manualy
