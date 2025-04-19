@@ -4,26 +4,12 @@
 ##### LOAD LIBS #####
 #####################
 
-library("here")
-library("glue")
-library("knitr")
-library("tidyverse")
-library("lubridate")
-library("xtable")
-# plot mixed models 
-library("lme4")
-library("glmmTMB")
-library("sjPlot")
-library("emmeans")
-library("performance")
-library("ggthemes")
-#rm(list=ls())
-options(width=180)
+source(here::here("scripts/load-libs.R"))
+report("R packages loaded",type="s") 
 
 #####################
 ##### LOAD DATA #####
 #####################
-
 
 # load qpcr data
 qcr.results <- readr::read_csv(here("data/qpcr-results.csv"),show_col_types=FALSE)
@@ -37,27 +23,51 @@ events.master <- readr::read_csv(here("data/events-master.csv"),show_col_types=F
 # load tissue data (species in ponds)
 tissues.master <- readr::read_csv(here("data/tissues-master.csv"),show_col_types=FALSE)
 
+# report
+report("Data loaded",type="s")
 
-######################
-##### CHECK DATA #####
-######################
 
-# check no template controls
-qcr.results.ntc <- qcr.results |> 
+################################
+##### NO TEMPLATE CONTROLS #####
+################################
+
+# report
+report("/// NO TEMPLATE CONTROLS (NTC) ///",type="i")
+
+# summarise no template controls
+qcr.results.neg <- qcr.results |> 
     dplyr::filter(role=="NTC") |> 
     dplyr::arrange(desc(copies))
-qcr.results.ntc |> dplyr::glimpse()
-qcr.results.ntc |> dplyr::filter(!is.na(copies)) |> dplyr::glimpse()
+
+# summarise negative and positive NTCs
+qcr.results.neg |> 
+    dplyr::mutate(positive=if_else(is.na(cq),0,1),negative=if_else(is.na(cq),1,0)) |> 
+    dplyr::group_by(assay) |>
+    dplyr::summarise(negative=sum(negative),positive=sum(positive)) |> 
+    knitr::kable(caption="Sum of positive and negative NTCs",format="simple")
+
+# report positive NTC
+qcr.results.neg |>
+    dplyr::filter(!is.na(copies)) |>
+    dplyr::select(experiment,well,assay,role,cq,copies) |>
+    knitr::kable(digits=2,caption="Positive NTCs",format="simple")
+
+
+###########################
+##### QUANT STANDARDS #####
+###########################
+
+# report
+report("/// QUANTIFICATION STANDARDS ///",type="i")
 
 # check standards
 qcr.results |> 
     dplyr::filter(is.na(exclude)) |> 
     dplyr::filter(role=="Standard") |> 
     dplyr::group_by(assay,copies) |>
-    dplyr::summarise(meancq=mean(cq),n=n(),.groups="drop") |>
+    dplyr::summarise(meancq=mean(cq),npositive=n(),.groups="drop") |>
     dplyr::arrange(assay,desc(copies)) |>
-    print(n=Inf)
-    #knitr::kable()
+    knitr::kable(format.args=list(scientific=FALSE,big.mark=","),digits=2,caption="Quantification standards",format="simple")
 
 
 ######################
@@ -65,8 +75,8 @@ qcr.results |>
 ######################
 
 # remove positive controls and standards
-# change copies to zero for excluded
-# split into dilution factor
+# change copies to zero for excluded samples
+# split the sample and dilution factor cols
 qcr.results.clean <- qcr.results |> 
     dplyr::filter(role=="Unknown") |>
     dplyr::select(-role,-thresholdSetting,-thresholdCq,-baselineSetting,-baselineStart,-baselineEnd) |>
@@ -75,30 +85,52 @@ qcr.results.clean <- qcr.results |>
     dplyr::mutate(dilutionFactor=as.numeric(str_split_fixed(dilutionFactor,"",4)[,3])) |>
     dplyr::rename(extractionTubeLabel=sample)
 
-# check for missing samples
-# (should be empty)
-qcr.results.clean |> dplyr::filter(!extractionTubeLabel %in% dplyr::pull(extractions.master,extractionTubeLabel))
-# (should all have "no sample" in notes)
-extractions.master |> dplyr::filter(!extractionTubeLabel %in% dplyr::pull(qcr.results.clean,extractionTubeLabel)) |> print(width=200)
+# check extractions sample names match
+dont_print({
+    # (should be empty)
+    qcr.results.clean |> dplyr::filter(!extractionTubeLabel %in% dplyr::pull(extractions.master,extractionTubeLabel))
+    # (should all have "no sample" in notes)
+    extractions.master |> dplyr::filter(!extractionTubeLabel %in% dplyr::pull(qcr.results.clean,extractionTubeLabel))
+})
 
 # join with the sample info
 qcr.results.ext <- qcr.results.clean |> dplyr::left_join(extractions.master,by="extractionTubeLabel")
 
-# blanks (should all be zero copies)
+# check all blanks are present (don't print)
+dont_print({
+    # blanks (should all be zero copies)
+    qcr.results.ext |> dplyr::filter(!is.na(blankType)) |> dplyr::filter(copies>0)
+    # check event ids (should all be blanks)
+    qcr.results.ext |> dplyr::filter(!eventID %in% dplyr::pull(events.master,eventID))# |> print(n=Inf)
+    # check event ids (should all be KIL)
+    events.master |> dplyr::filter(!eventID %in% dplyr::pull(qcr.results.ext,eventID))# |> print(n=Inf)
+})
+
+
+##################################
+##### FIELD AND LAB CONTROLS #####
+##################################
+
+# get numbers for field/lab blank controls
+report("/// FIELD AND LAB BLANK CONTROLS ///",type="i")
+
+# numbers of blank extractions
 qcr.results.ext |> 
     dplyr::filter(!is.na(blankType)) |> 
-    dplyr::filter(copies>0) 
+    dplyr::distinct(extractionTubeLabel,blankType) |> 
+    dplyr::count(blankType) |>
+    knitr::kable(caption="Number of field and lab blank extractions",format="simple")
 
-# check event ids (should all be blanks)
-qcr.results.ext |> dplyr::filter(!eventID %in% dplyr::pull(events.master,eventID)) |> print(n=Inf)
-# check event ids (should all be KIL)
-events.master |> dplyr::filter(!eventID %in% dplyr::pull(qcr.results.ext,eventID)) |> print(n=Inf)
+# numbers of blank PCRs
+qcr.results.ext |> 
+    dplyr::filter(!is.na(blankType)) |> 
+    dplyr::count(blankType) |>
+    knitr::kable(caption="Number of field and lab blank PCRs",format="simple")
 
-# get numbers for controls
-qcr.results.ext |> dplyr::filter(blankType=="FIELD") |> dplyr::distinct(extractionTubeLabel)
-qcr.results.ext |> dplyr::filter(blankType=="FIELD") |> dplyr::glimpse()
-qcr.results.ext |> dplyr::filter(blankType=="LAB") |> dplyr::distinct(extractionTubeLabel)
-qcr.results.ext |> dplyr::filter(blankType=="LAB") |> dplyr::glimpse()
+
+##################
+##### EVENTS #####
+##################
 
 # add events data
 # clean up - change names, remove blanks and superfluous columns
@@ -108,15 +140,27 @@ qcr.results.joined <- qcr.results.ext |>
     dplyr::select(eventID,localityID,localitySite,,nickname,assay,extractionTubeLabel,extractionDate,dilutionFactor,repVol,copies) |>
     dplyr::mutate(localityID=stringr::str_replace_all(localityID,"MG","Site"),localitySite=stringr::str_replace_all(localitySite,"MG","Site")) |>
     dplyr::mutate(localityID=glue::glue("{localityID}-{nickname}"), localitySite=stringr::str_replace_all(localitySite,"-",glue::glue("-{nickname}-")))
-
-qcr.results.joined |> filter(extractionTubeLabel=="10.06.19/01")
+# qcr.results.joined |> filter(extractionTubeLabel=="10.06.19/01")
 
 # get df of names 
-qcr.results.names <- qcr.results.joined |> dplyr::distinct(localityID,localitySite,extractionTubeLabel) 
-qcr.results.names |> dplyr::distinct(localityID) |> dplyr::arrange(localityID) |> print(n=Inf) # Site05 and Site13 has two names
-qcr.results.names |> dplyr::distinct(localitySite) |> dplyr::arrange(localitySite) |> print(n=Inf) 
-qcr.results.names |> dplyr::distinct(extractionTubeLabel) |> dplyr::arrange(extractionTubeLabel) |> print(n=Inf) 
+dont_print({
+    qcr.results.names <- qcr.results.joined |> dplyr::distinct(localityID,localitySite,extractionTubeLabel) 
+    qcr.results.names |> dplyr::distinct(localityID) |> dplyr::arrange(localityID) #|> print(n=Inf) # Site05 and Site13 has two names
+    qcr.results.names |> dplyr::distinct(localitySite) |> dplyr::arrange(localitySite) #|> print(n=Inf) 
+    qcr.results.names |> dplyr::distinct(extractionTubeLabel) |> dplyr::arrange(extractionTubeLabel) #|> print(n=Inf) 
+})
 
+# get numbers for field/lab blank controls
+report("/// EDNA SAMPLING EVENTS ///",type="i")
+
+# count number localities etc
+qcr.results.names |> dplyr::summarise(
+        site=length(unique(localityID)),
+        pond=length(unique(localitySite)),
+        waterSample=length(unique(extractionTubeLabel))
+        ) |>
+    tidyr::pivot_longer(tidyr::everything(),names_to="samplingLevel",values_to="n") |>
+    knitr::kable(caption="Number of eDNA samples from sites, ponds, and water sample replicates",format="simple")
 
 # add a new column for copies/L of water given x dilutionFactor, 1 uL in each PCR reaction, 105 uL extraction volume, and x mL filtration volume (repVol)
 # sum total copies in a filter extraction
@@ -129,46 +173,33 @@ qcr.results.by.extraction <- qcr.results.joined |>
     dplyr::ungroup() |>
     dplyr::arrange(localitySite,extractionTubeLabel,assay,desc(copiesLitre))
 # qcr.results.by.extraction |> filter(localitySite=="Site02-Msauzi-A" & assay=="leucostictus") |> print(n=Inf)
-qcr.results.by.extraction 
-
-#########################
-##### SUMMARY STATS #####
-#########################
+# qcr.results.by.extraction 
 
 
-# function to summarise by grouping var ()
-summarise_qpcr <- function(df,grouping) {
-    df.prop <- df |> 
-        dplyr::group_by({{grouping}}) |>
-        dplyr::mutate(copiesLitreTotal=sum(copiesLitre)) |>
-        dplyr::ungroup() |>
-        dplyr::group_by(assay,{{grouping}},copiesLitreTotal) |>
-        dplyr::summarise(copiesLitreSpecies=sum(copiesLitre),
-            nFilterReps=length(unique(extractionTubeLabel)),
-            nFilterRepsPositive=length(unique(extractionTubeLabel[nPcrRepsPositive>0])),
-            nPcrReps=n(),
-            nPcrRepsPositive=length(which(copiesLitre>0)),
-            .groups="drop") |>
-        dplyr::mutate(proportion=copiesLitreSpecies/copiesLitreTotal) |> 
-        dplyr::arrange({{grouping}},assay) |>
-        dplyr::select({{grouping}},assay,copiesLitreSpecies,proportion,nFilterReps,nFilterRepsPositive,nPcrReps,nPcrRepsPositive) |>
-        dplyr::rename(group={{grouping}},species=assay,copiesTotal=copiesLitreSpecies) |>
-        dplyr::mutate(proportion=if_else(is.nan(proportion),0,proportion))
-return(df.prop)
-} 
+##########################
+##### SUMMARISE QPCR #####
+##########################
+
+# summarise by groups
+dont_print({
+    # summarise by 'localityID'
+    qcr.results.by.extraction |> summarise_qpcr(grouping=localityID)
+    # summarise by 'localitySite'
+    qcr.results.by.extraction |> summarise_qpcr(grouping=localitySite)
+    # summarise by 'extractionTubeLabel'
+    qcr.results.by.extraction |> summarise_qpcr(grouping=extractionTubeLabel)
+})
+
+# summarise by 'localitySite' (pond)
+qcr.results.summarised <- qcr.results.by.extraction |> summarise_qpcr(grouping=localitySite)
 
 
-# summarise by 'localityID'
-#qcr.results.summarised <- qcr.results.by.extraction |> summarise_qpcr(grouping=localityID)#  |> filter(group=="Site02-Msauzi")
-# summarise by 'localitySite'
-qcr.results.summarised <- qcr.results.by.extraction |> summarise_qpcr(grouping=localitySite)# |> filter(group=="Site02-Msauzi-A")
-# summarise by 'extractionTubeLabel'
-#qcr.results.summarised <- qcr.results.by.extraction |> summarise_qpcr(grouping=extractionTubeLabel) |> 
-#    left_join(rename(qcr.results.names,group=extractionTubeLabel)) |> 
-#    mutate(group=localityID) |>
-#    #mutate(group=localitySite) |>
-#    select(-localityID,-localitySite)
+##########################
+##### TISSUE SAMPLES #####
+##########################
 
+# Summarising tissue sampling
+report("/// TISSUE SAMPLES ///",type="i")
 
 # format the tissues
 tissues.master.format <- tissues.master |> 
@@ -177,31 +208,30 @@ tissues.master.format <- tissues.master |>
     dplyr::mutate(localityID=str_replace_all(localityID,"MG","Site"),localitySite=stringr::str_replace_all(localitySite,"MG","Site")) |>
     dplyr::mutate(localityID=paste(localityID,nickname,sep="-"),localitySite=stringr::str_replace_all(localitySite,"-",glue::glue("-{nickname}-")))
 
-# numbers
-tissues.master.format |> dplyr::glimpse()
-tissues.master.format |> dplyr::group_by(localitySite) |> dplyr::summarise(n=n()) 
-tissues.master.format |> dplyr::group_by(localitySite) |> dplyr::summarise(n=n()) |> dplyr::pull(n) |> mean()
-tissues.master.format |> dplyr::distinct(specificEpithet,localitySite) |> dplyr::group_by(specificEpithet) |> dplyr::summarise(n=n())
-tissues.master.format |> dplyr::distinct(localitySite) 
+# tissues per pond
+tissues.master.format |> 
+    dplyr::count(localitySite) |> 
+    knitr::kable(caption="Number of tissue samples from each pond",format="simple")
+#tissues.master.format |> dplyr::group_by(localitySite) |> dplyr::summarise(n=n()) |> dplyr::pull(n) |> mean()
 
+# tissues per species
+tissues.master.format |> 
+    dplyr::distinct(specificEpithet,localitySite) |> 
+    dplyr::count(specificEpithet) |> 
+    knitr::kable(caption="Number of tissue samples by species",format="simple")
 
-# summarise tissues
-summarise_tissues <- function(df,grouping) {
-    df.bin <- df |> 
-        dplyr::select({{grouping}},specificEpithet) |>
-        dplyr::group_by({{grouping}},specificEpithet) |>
-        dplyr::count() |> 
-        tidyr::pivot_wider(names_from=specificEpithet,values_from=n,values_fill=0) |>
-        dplyr::mutate(across(c(niloticus,urolepis,leucostictus),~if_else(.x>0,1,0))) |>
-        dplyr::ungroup() |>
-        dplyr::rename(group={{grouping}})
-return(df.bin)
-}
+# by site
+tissues.master.format |> 
+    summarise_tissues(grouping=localityID) |>
+    knitr::kable(caption="Presence/absence of species by site",format="simple")
 
-# run for groupvar
-#tissues.binary <- tissues.master.format |> summarise_tissues(grouping=localityID)
+# by pond
+tissues.master.format |> 
+    summarise_tissues(grouping=localitySite) |>
+    knitr::kable(caption="Presence/absence of species by pond",format="simple")
+
+# by pond
 tissues.binary <- tissues.master.format |> summarise_tissues(grouping=localitySite)
-
 
 # add tissues data to SUMMARISED
 qcr.results.summarised.tissues <- qcr.results.summarised |> 
@@ -211,44 +241,48 @@ qcr.results.summarised.tissues <- qcr.results.summarised |>
     dplyr::ungroup()
 
 # add tissues data to BY EXTRACTION
-#qcr.results.summarised.tissues <- qcr.results.by.extraction |> 
-#    select(localityID,localitySite,extractionTubeLabel,assay,copiesLitre,nPcrRepsPositive) |> 
-#    rename(group=localitySite,site=localityID,species=assay) |>
-#    left_join(pivot_longer(tissues.binary,cols=c(niloticus,urolepis,leucostictus),names_to="species",values_to="presence"),by=c("group","species")) |>
-#    group_by(group) |>
-#    mutate(nPcrRepsPositiveByGroup=sum(nPcrRepsPositive)) |> 
-#    ungroup()
+qcr.results.by.extraction.tissues <- qcr.results.by.extraction |> 
+    select(localityID,localitySite,assay,extractionTubeLabel,copiesLitre) |> 
+    rename(group=localitySite,site=localityID,species=assay) |>
+    left_join(tidyr::pivot_longer(tissues.binary,cols=c(niloticus,urolepis,leucostictus),names_to="species",values_to="presence"),by=c("group","species")) |>
+    rename(pond=group,assay=species,fishPresence=presence)
 
+# write out
+qcr.results.by.extraction.tissues |> readr::write_csv(here::here("temp/qpcr-results-processed.csv"))
 
-# format the events
+###########################
+##### SAMPLING EVENTS #####
+###########################
+
+report("/// SAMPLING SITES ///",type="i")
+
+# print out events
 events.master |> 
     dplyr::distinct(localitySite,localityID,nickname,fieldID,decimalLatitude,decimalLongitude,year,month,day,waterBody) |>
-    dplyr::mutate(group=str_replace_all(localitySite,"MG","Site"),group=str_replace_all(group,"-",glue::glue("-{nickname}-"))) |>
+    dplyr::mutate(group=stringr::str_replace_all(localitySite,"MG","Site"),group=stringr::str_replace_all(group,"-",glue::glue("-{nickname}-"))) |>
     dplyr::filter(group %in% pull(qcr.results.names,localitySite)) |>
     tidyr::separate(col=group,into=c("site","name","pond"),sep="-",remove=TRUE) |>
     dplyr::mutate(samplingDate=ymd(paste(year,month,day,sep="-"))) |>
     dplyr::mutate(decimalLatLon=paste(round(decimalLatitude,digits=3),round(decimalLongitude,digits=3),sep=", ")) |>
-    #group_by(site,name) |>
-    #    mutate(numberPonds=n()) |>
-    #    ungroup() |>
     dplyr::arrange(site,name,pond) |>
     dplyr::select(site,name,pond,fieldID,waterBody,samplingDate,decimalLatLon) |>
-    #write_csv(here("temp/sampling-sites-summarised.csv"))
     dplyr::mutate(samplingDate=as.character(samplingDate)) |>
     dplyr::rename(Site=site,Name=name,Pond=pond,`Field ID code`=fieldID,Drainage=waterBody,`Sampling date (ymd)`=samplingDate,`Location (decimal lat/lon)`=decimalLatLon) |>
-    xtable::xtable(caption="blahhh", digits=rep(0,8)) |>
-    print.xtable(include.rownames=FALSE,booktabs=TRUE,sanitize.text.function=identity,caption.placement="top",size="tiny")
+    knitr::kable(caption="Summary of sampling sites",format="simple")
 
 # get status
-qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(copiesTotal>0)),tot=n(),prop=n/tot)
-qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(proportion>0.1)),tot=n(),prop=n/tot)
-qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(proportion>0.9)),tot=n(),prop=n/tot)
-qcr.results.summarised.tissues |> dplyr::group_by(group) |> dplyr::summarise(n=length(which(copiesTotal>0))) |> dplyr::group_by(n) |> dplyr::summarise(count=n()) |> dplyr::mutate(tot=sum(count),prop=count/tot)
-qcr.results.summarised.tissues |> dplyr::filter(presence==1 & copiesTotal==0)
-qcr.results.summarised.tissues |> dplyr::filter(presence==1 & copiesTotal>0) |> print(n=Inf)
+#qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(copiesTotal>0)),tot=n(),prop=n/tot)
+#qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(proportion>0.1)),tot=n(),prop=n/tot)
+#qcr.results.summarised.tissues |> dplyr::group_by(species) |> dplyr::summarise(n=length(which(proportion>0.9)),tot=n(),prop=n/tot)
+#qcr.results.summarised.tissues |> dplyr::group_by(group) |> dplyr::summarise(n=length(which(copiesTotal>0))) |> dplyr::group_by(n) |> dplyr::summarise(count=n()) |> dplyr::mutate(tot=sum(count),prop=count/tot)
+#qcr.results.summarised.tissues |> dplyr::filter(presence==1 & copiesTotal==0)
+#qcr.results.summarised.tissues |> dplyr::filter(presence==1 & copiesTotal>0) |> print(n=Inf)
+#
 
+# report
+report("/// RESULTS SUMMARY TABLES ///",type="i")
 
-# write out the results for Appendix
+# print results for each pond
 qcr.results.summarised.tissues |> 
     dplyr::mutate(filterPositive=paste(nFilterRepsPositive,nFilterReps,sep="/"),pcrPositive=paste(nPcrRepsPositive,nPcrReps,sep="/")) |>
     dplyr::group_by(group) |>
@@ -263,68 +297,11 @@ qcr.results.summarised.tissues |>
     dplyr::mutate(presence=dplyr::if_else(is.na(presence),"",as.character(presence))) |>
     #mutate(presence=as.character(presence),presence=str_replace_all(presence,NA,"")) |>
     dplyr::rename(Site=site,Name=name,Pond=pond,Species=species,`Total copies`=copiesTotal,`Proportion (%)`=proportion,`Species presence`=presence,`Positive filters (n/total)`=filterPositive,`Positive PCRs (n/total)`=pcrPositive) |>
-    dplyr::mutate(across(where(is.numeric),~prettyNum(.x,big.mark=","))) |>
-    xtable::xtable(caption="blahhh", digits=rep(0,10)) |>
-    print.xtable(include.rownames=FALSE,booktabs=TRUE,sanitize.text.function=identity,caption.placement="top",size="tiny")
-
-############################################### 
-###############################################
-
-# plot logistic glm
-qcr.results.summarised.tissues |> 
-    dplyr::filter(nPcrRepsPositiveByGroup>0 & !is.na(presence)) |>
-    #ggplot(aes(x=proportion,y=presence)) + 
-    ggplot2::ggplot(aes(x=log(copiesTotal+1),y=presence)) + 
-        geom_point() + 
-        stat_smooth(method="glm", method.args=list(family="binomial"), se=TRUE) +
-        facet_wrap(vars(species),scales="free")
-
-# check outliers
-qcr.results.summarised.tissues |> filter(presence==1 & proportion<0.05)
-qcr.results.summarised.tissues |> filter(presence==0 & proportion>0.25)
+    knitr::kable(caption="Summary of results by pond",format="simple",format.args=list(big.mark=","),align="llllrrrrr")
 
 
-# format for mixed model 
-qcr.results.summarised.tissues.reduced <- qcr.results.summarised.tissues |> 
-    filter(nPcrRepsPositiveByGroup>0 & !is.na(presence)) |> 
-    mutate(presence=as.factor(presence)) |>
-    mutate(site=str_split_fixed(group,"-",3)[,1])
+###############
+##### END #####
+###############
 
-# run a glmm
-m0 <- glmmTMB(
-    formula=log10(copiesTotal+1) ~ presence + species + (1|site/group), 
-    data=qcr.results.summarised.tissues.reduced, 
-    family=gaussian(link="identity"),
-    REML=TRUE,
-    na.action=na.fail)
-
-# get summary
-summary(m0)
-
-# run lmm
-m0 <- lmer(log10(copiesTotal+1) ~ presence + species + (1|site/group), data = qcr.results.summarised.tissues.reduced, na.action="na.omit")
-summary(m0)
-sjPlot::plot_model(m0)
-sjPlot::tab_model(m0)
-
-# check model stats
-performance::check_model(m0)
-
-# estimated marginal means
-m0.means <- emmeans(m0,specs="presence")
-#m0.means |> plot()
-pairs(m0.means,type="response",reverse=TRUE)
-# contrast ratio    SE df null t.ratio p.value
-# 1 / 0     8484 13401 39    1   5.727  <.0001
-
-# plot with emmeans
-p <- qcr.results.summarised.tissues.reduced |> 
-    ggplot(aes(y=log10(copiesTotal+1),x=presence)) + 
-    #geom_point(alpha=0.5,pch=21) + 
-    geom_jitter(alpha=0.5,pch=21,width=0.05,height=0) + 
-    geom_pointrange(data=as_tibble(m0.means),mapping=aes(x=presence,y=emmean, ymin=lower.CL, ymax=upper.CL),color="orange",size=1) +
-    theme_clean() +
-    labs(x="Species presence",y="Total copies (log10 transformed)")
-plot(p)
-# save
-ggsave(filename=here("temp/maps/copies-by-presence.svg"),plot=p,width=120,height=120,units="mm")
+report("All steps complete; processed qPCR results written to {.file temp/qpcr-results-processed.csv}",type="s")
