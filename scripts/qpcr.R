@@ -167,7 +167,7 @@ qcr.results.names |> dplyr::summarise(
 # get number PCR replicates and postives
 qcr.results.by.extraction <- qcr.results.joined |> 
     dplyr::mutate(copiesLitre=((((copies*dilutionFactor)*105)/repVol)*1000)) |>
-    dplyr::select(localityID,localitySite,extractionTubeLabel,assay,copiesLitre) |>
+    dplyr::select(localityID,localitySite,extractionTubeLabel,assay,copies,copiesLitre) |> ###copies
     dplyr::group_by(extractionTubeLabel,assay) |> 
     dplyr::mutate(copiesLitreExtraction=sum(copiesLitre),nPcrReps=n(),nPcrRepsPositive=length(which(copiesLitre>0)),propPcrRepsPostive=nPcrRepsPositive/nPcrReps) |> 
     dplyr::ungroup() |>
@@ -242,7 +242,7 @@ qcr.results.summarised.tissues <- qcr.results.summarised |>
 
 # add tissues data to BY EXTRACTION
 qcr.results.by.extraction.tissues <- qcr.results.by.extraction |> 
-    select(localityID,localitySite,assay,extractionTubeLabel,copiesLitre) |> 
+    select(localityID,localitySite,assay,extractionTubeLabel,copies,copiesLitre) |> 
     rename(group=localitySite,site=localityID,species=assay) |>
     left_join(tidyr::pivot_longer(tissues.binary,cols=c(niloticus,urolepis,leucostictus),names_to="species",values_to="presence"),by=c("group","species")) |>
     rename(pond=group,assay=species,fishPresence=presence)

@@ -4,134 +4,162 @@
 ##### LOAD LIBS #####
 #####################
 
-library("ggplot2")
-library("ggpubr")
-library("dplyr")
-library("car")
-library("emmeans")
-library("lme4")
-library("lmerTest")
-library("DHARMa")
+# load libs and funs
+source(here::here("scripts/load-libs.R"))
+report("R packages loaded",type="s")
 
-ModelData_All <- read.table(here::here("temp/ModelData_19Oct2024.tsv"),header=TRUE,fill=TRUE,sep="\t",check.names=FALSE)
+# load data
+model.data <- readr::read_csv(here::here("temp/qpcr-results-processed.csv"),show_col_types=FALSE)
+report("Data loaded from {.file temp/qpcr-results-processed.csv}",type="s")
 
-### First estimate proportions of each species across all collected sites
+### summarise, format and transform data
 
-ModelData_All_FC_Summary <- ModelData_All %>%
-  group_by(eventID, assay, extractionTubeLabel) %>%
-  reframe(copies_l_water = mean(copies_l_water), Target_present_in_fish = max(Target_present_in_fish),fish_collected = max(fish_collected),n = n())
+model.data.summary <- model.data |> 
+    dplyr::group_by(pond,assay,extractionTubeLabel) |>
+    dplyr::summarise(copiesLitre=mean(copiesLitre),fishPresence=max(fishPresence),.groups="drop") |> 
+    dplyr::group_by(extractionTubeLabel) |> 
+    dplyr::mutate(copiesLitreExtraction=sum(copiesLitre)) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(copiesLitreTrans=sqrt(sqrt(copiesLitre))) |>
+    dplyr::mutate(proportion=copiesLitre/copiesLitreExtraction) |>
+    dplyr::mutate(proportionTrans=asin(sqrt(proportion)))
 
-ModelData_All_FC_Proportion <- ModelData_All_FC_Summary %>%
-  group_by(extractionTubeLabel) %>%
-  mutate(proportion =  copies_l_water/sum(copies_l_water))
+### filter to limit only to the 15 fish collected sites
+model.data.summary.proportion <- model.data.summary |> dplyr::filter(!is.na(fishPresence))
 
-ModelData_All_FC_Proportion_Site <- ModelData_All_FC_Proportion %>%
-  group_by(eventID, assay) %>%
-  reframe(copies_l_water = mean(copies_l_water))
 
-write.table (ModelData_All_FC_Proportion_Site, file="CopyNumberPerSite.txt")
+#####################################################
+report("/// LINEAR MIXED EFFECTS MODEL ///",type="i")
+#####################################################
 
-### Next filter to limit only to the 15 fish collected sites
+### model the quantities of DNA across species with linear mixed effects model
 
-ModelData_All_FC_Proportion <- filter(ModelData_All_FC_Proportion, fish_collected == "Yes")
+mod.all <- lmerTest::lmer(copiesLitreTrans ~ factor(fishPresence) + factor(assay) + (1|pond), data = model.data.summary.proportion)
 
-### Clean house
+# anova table
+mod.all |> anova() |> parameters::model_parameters()
 
-rm(ModelData_All)
-rm(ModelData_All_FC_Proportion_Site)
-rm(ModelData_All_FC_Summary)
+# check model
+dont_print({
+    mod.all |> performance::check_model()
+})
 
-### Model the quantities of DNA across species
+# model params
+mod.all |> parameters::model_parameters()
 
-ModelData_All_FC_Proportion$copies_l_water_4th <- sqrt(sqrt(ModelData_All_FC_Proportion$copies_l_water))
+# get marginal means
+mod.all |> modelbased::estimate_means(c("assay","fishPresence"),transform=power4)
+mod.all |> modelbased::estimate_means("fishPresence",transform=power4)
+mod.all |> modelbased::estimate_contrasts("fishPresence",transform=power4)
 
-ModelAll1 <- lmer(copies_l_water_4th ~ Target_present_in_fish + assay + (1|eventID),
-                      data = ModelData_All_FC_Proportion)
-summary(ModelAll1)
-anova(ModelAll1)
 
-emmeans(ModelAll1, specs = pairwise ~ Target_present_in_fish)
+### model the quantities of DNA and proportion of DNA comprised by each species
 
-(-0.611^4)
-(0.912^4)
-(2.44^4)
+####################################################
+report("/// LEUCOSTICTUS ASSAY COPIES ///",type="i")
+####################################################
 
-(3.628^4)
-(5.149^4)
-(6.67^4)
+# leucostictus
+model.data.summary.proportion.leuco <- model.data.summary.proportion |> dplyr::filter(assay=="leucostictus")
 
-### Model the quantities of DNA and proportion of DNA comprised by each species
+# copies
+mod.leuco <- lmerTest::lmer(copiesLitreTrans ~ factor(fishPresence) + (1|pond), data = model.data.summary.proportion.leuco)
+mod.leuco |> anova() |> parameters::model_parameters()
+mod.leuco |> modelbased::estimate_means("fishPresence",transform=power4)
 
-ModelData_Leuco_Proportion <- ModelData_All_FC_Proportion[which(ModelData_All_FC_Proportion$assay=='leucostictus'), ]
 
-ModelLeuco1 <- lmer(copies_l_water_4th ~ Target_present_in_fish + (1|eventID),
-                   data = ModelData_Leuco_Proportion)
-summary(ModelLeuco1)
-anova(ModelLeuco1)
+#########################################################
+report("/// LEUCOSTICTUS ASSAY PROPORTIONS ///",type="i")
+#########################################################
 
-ModelLeuco2 <- lmer(asin(proportion) ~ Target_present_in_fish + (1|eventID),
-                        data = ModelData_Leuco_Proportion)
-summary(ModelLeuco2)
-anova(ModelLeuco2)
+# leuco proportions
+mod.leuco.prop <- lmerTest::lmer(proportionTrans ~ factor(fishPresence) + (1|pond), data = model.data.summary.proportion.leuco)
+mod.leuco.prop |> anova() |> parameters::model_parameters()
+mod.leuco.prop |> modelbased::estimate_means("fishPresence",transform=sqsine)
 
-###
 
-ModelData_Nilo_Proportion <- ModelData_All_FC_Proportion[which(ModelData_All_FC_Proportion$assay=='niloticus'), ]
+#################################################
+report("/// NILOTICUS ASSAY COPIES ///",type="i")
+#################################################
 
-ModelNilo1 <- lmer(copies_l_water_4th ~ Target_present_in_fish + (1|eventID),
-                   data = ModelData_Nilo_Proportion)
-summary(ModelNilo1)
-anova(ModelNilo1)
+# niloticus
+model.data.summary.proportion.nilo <- model.data.summary.proportion |> dplyr::filter(assay=="niloticus")
 
-ModelNilo2 <- lmer(asin(proportion) ~ Target_present_in_fish + (1|eventID),
-                        data = ModelData_Nilo_Proportion)
-summary(ModelNilo2)
-anova(ModelNilo2)
+# copies
+mod.nilo <- lmerTest::lmer(copiesLitreTrans ~ factor(fishPresence) + (1|pond), data = model.data.summary.proportion.nilo)
+mod.nilo |> anova() |> parameters::model_parameters()
+mod.nilo |> modelbased::estimate_means("fishPresence",transform=power4)
 
-###
 
-ModelData_Uro_Proportion <- ModelData_All_FC_Proportion[which(ModelData_All_FC_Proportion$assay=='urolepis'), ]
+######################################################
+report("/// NILOTICUS ASSAY PROPORTIONS ///",type="i")
+######################################################
 
-ModelUro1 <- lmer(copies_l_water_4th ~ Target_present_in_fish + (1|eventID),
-                  data = ModelData_Uro_Proportion)
-summary(ModelUro1)
-anova(ModelUro1)
+# nilo proportions
+mod.nilo.prop <- lmerTest::lmer(proportionTrans ~ factor(fishPresence) + (1|pond), data = model.data.summary.proportion.nilo)
+mod.nilo.prop |> anova() |> parameters::model_parameters()
+mod.nilo.prop |> modelbased::estimate_means("fishPresence",transform=sqsine)
 
-ModelUro2 <- lmer(asin(proportion) ~ Target_present_in_fish + (1|eventID),
-                       data = ModelData_Uro_Proportion)
-summary(ModelUro2)
-anova(ModelUro2)
 
-### Plot boxplots
+################################################
+report("/// UROLEPIS ASSAY COPIES ///",type="i")
+################################################
 
-ModelData_All_FC_Proportion$Target_present_in_fish<-as.factor(ModelData_All_FC_Proportion$Target_present_in_fish)
+# urolepis
+model.data.summary.proportion.uro <- model.data.summary.proportion |> dplyr::filter(assay=="urolepis")
 
-plot1 <- ggplot(ModelData_All_FC_Proportion, aes(y=copies_l_water_4th, x=Target_present_in_fish)) + 
-  geom_boxplot(aes(fill = assay),outliers = FALSE) + 
-  geom_jitter(height=0,width=0.3,shape=1) +
-  facet_grid(~factor(assay, levels=c('niloticus', 'urolepis', 'leucostictus'))) +
-  theme_classic() +
-  scale_fill_manual(values=c("gold", "steelblue2", "red")) + # set the color of the values manualy
-  labs(x ="Confirmed species presence in water body", y =  bquote('eDNA copies (4th root transformed)'),) +
-  theme(legend.position = "right")
-plot1
+# copies
+mod.uro <- lmerTest::lmer(copiesLitreTrans ~ factor(fishPresence) + (1|pond), data = model.data.summary.proportion.uro)
+mod.uro |> anova() |> parameters::model_parameters()
+mod.uro |> modelbased::estimate_means("fishPresence",transform=power4)
 
-ModelData_All_FC_Proportion2 <- ModelData_All_FC_Proportion[complete.cases(ModelData_All_FC_Proportion), ]
 
-plot2 <- ggplot(ModelData_All_FC_Proportion2, aes(y=proportion, x=Target_present_in_fish)) + 
-  geom_boxplot(aes(fill = assay),outliers = FALSE) + 
-  geom_jitter(height=0,width=0.3,shape=1) +
-  facet_grid(~factor(assay, levels=c('niloticus', 'urolepis', 'leucostictus'))) +
-  theme_classic() +
-  scale_fill_manual(values=c("gold", "steelblue2", "red")) + # set the color of the values manualy
-  labs(x ="Confirmed species presence in water body", y =  bquote('Proportion of eDNA in water body'),) +
-  theme(legend.position = "right")
-plot2
+#####################################################
+report("/// UROLEPIS ASSAY PROPORTIONS ///",type="i")
+#####################################################
 
-figure <- ggarrange (plot1, plot2, ncol = 1, nrow =2, legend = "none")
-figure
+# uro proportions
+mod.uro.prop <- lmerTest::lmer(proportionTrans ~ factor(fishPresence) + (1|pond), data = model.data.summary.proportion.uro)
+mod.uro.prop |> anova() |> parameters::model_parameters()
+mod.uro.prop |> modelbased::estimate_means("fishPresence",transform=sqsine)
 
-#save as 10x6 landscape
 
-#######
+############################################
+report("/// PLOTTING BOXPLOTS ///",type="i")
+############################################
 
+# plot 1
+plot1 <- model.data.summary.proportion |> 
+    ggplot2::ggplot(aes(y=copiesLitreTrans, x=factor(fishPresence))) + 
+        ggplot2::geom_boxplot(aes(fill=assay),outliers=FALSE) + 
+        ggplot2::geom_jitter(position=ggplot2::position_jitter(height=0,width=0.25,seed=42),shape=1,alpha=0.5) +
+        ggplot2::facet_grid(~factor(assay,levels=c("niloticus","urolepis","leucostictus"))) +
+        ggplot2::scale_fill_manual(values=c("gold","steelblue2","red")) +
+        ggthemes::theme_clean() +
+        ggplot2::theme(legend.position="none") +
+        ggplot2::labs(x="Confirmed species presence in water body", y="eDNA copies (4th root transformed)")
+#print(plot1)
+ggplot2::ggsave(plot=plot1,filename=here::here("temp/plot1.svg"),device=svglite::svglite,width=8,height=3,system_fonts=list(sans="Arial"))
+# to fix text editing in Inkscape
+# sed -i -E "s/ (textLength|lengthAdjust)='[^']*'//g" plot1.svg
+report("Plot saved to {.file temp/plot1.svg}",type="s")
+
+# plot2
+plot2 <- model.data.summary.proportion |> 
+    dplyr::filter(!is.nan(proportion)) |> 
+    ggplot2::ggplot(aes(y=proportion, x=factor(fishPresence))) + 
+        ggplot2::geom_boxplot(aes(fill=assay),outliers=FALSE) + 
+        ggplot2::geom_jitter(position=ggplot2::position_jitter(height=0,width=0.25,seed=4242),shape=1,alpha=0.5) +
+        ggplot2::facet_grid(~factor(assay,levels=c("niloticus","urolepis","leucostictus"))) +
+        ggplot2::scale_fill_manual(values=c("gold","steelblue2","red")) +
+        ggthemes::theme_clean() +
+        ggplot2::theme(legend.position="none") +
+        ggplot2::labs(x="Confirmed species presence in water body", y="Proportion of eDNA in water body")
+#print(plot2)
+ggplot2::ggsave(plot=plot2,filename=here::here("temp/plot2.svg"),device=svglite::svglite,width=8,height=3,system_fonts=list(sans="Arial"))
+# to fix text editing in Inkscape
+# sed -i -E "s/ (textLength|lengthAdjust)='[^']*'//g" plot2.svg
+report("Plot saved to {.file temp/plot2.svg}",type="s")
+
+# fin
+report("All steps complete",type="s")

@@ -10,6 +10,10 @@ suppressPackageStartupMessages({
     library("knitr")
     library("tidyverse")
     library("cli")
+    library("lmerTest")
+    library("easystats")
+    library("ggthemes")
+    library("svglite")
 })
 
 # some options
@@ -22,7 +26,20 @@ options(width=180)
 
 # function to not print some code to screen
 dont_print <- function(expr) {
-  invisible(force(expr))
+    invisible(force(expr))
+}
+
+# function to fourth power
+power4 <- function(x) {
+    res <- x^4
+    return(res)
+}
+
+
+# function to square the sine
+sqsine <- function(x) {
+    res <- sin(x)^2
+    return(res)
 }
 
 
@@ -38,6 +55,7 @@ report <- function(text,type) {
         cli::cli_text("")
         cli::cli_text("")
         cli::cli_alert_info(text)
+        cli::cli_text("")
     } else if (type=="g") {
         cli::cli_text("")
         cli::cli_text("")
