@@ -14,6 +14,7 @@ suppressPackageStartupMessages({
     library("easystats")
     library("ggthemes")
     library("svglite")
+    library("marginaleffects")
 })
 
 # some options
