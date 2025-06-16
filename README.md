@@ -26,7 +26,7 @@ scripts/models.R
 ```
 
 
-### Repository contents (A-Z)
+### Repository contents
 
 * **`data/`** - Raw and processed data used in analyses.
     - `events-master.csv` - table of eDNA sampling events
@@ -45,3 +45,4 @@ scripts/models.R
 * `.gitignore` - files and directories ignored by git
 * `.Rprofile` - activates renv
 * `.R-version` - required version of R (used by renv-installer)
+* Collins_eDNAAssay_9June2025_SupportingInformation.xlsx - Supporting Information for publication
