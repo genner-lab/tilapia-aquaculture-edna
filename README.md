@@ -2,7 +2,7 @@
 
 # Tilapia Aquaculture eDNA
 
-Collins RA, Saxon AD, Shechonge AH, Kishe MA, Ngatunga BP & Genner MJ. Environmental DNA-based quantification of an invasive tilapia species in Tanzanian inland aquaculture. _Journal_. [https://doi.org/x](https://doi.org/x).
+Collins RA, Saxon AD, Shechonge AH, Kishe MA, Ngatunga BP & Genner MJ. Environmental DNA-based quantification of an invasive tilapia species in Tanzanian inland aquaculture.
 
 Code and data for manuscript on monitoring Tanzania tilapia aquaculture using eDNA.
 
