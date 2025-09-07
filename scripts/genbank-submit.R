@@ -111,7 +111,8 @@ ggtree::ggsave(filename=here("temp/nd1.genbank.pdf"),plot=pp,limitsize=FALSE,wid
 
 # write out
 tissues.meta.sm |> 
-    dplyr::filter(Sequence_ID %in% names(seqs.nd1)) |> 
+    dplyr::filter(Sequence_ID %in% names(seqs.nd1)) |>
+    dplyr::mutate(Sequence_ID=glue::glue("{Sequence_ID}_nd1")) |> 
     dplyr::select(-scientificName) |> 
     readr::write_tsv(here("temp/nd1.genbank.tsv"))
 
@@ -119,7 +120,9 @@ tissues.meta.sm |>
 seqs.nd1.fa <- fas2tab(seqs.nd1) |> 
     dplyr::rename(Sequence_ID=label) |> 
     dplyr::left_join(tissues.meta.sm,by=dplyr::join_by(Sequence_ID)) |> 
-    dplyr::mutate(label=glue::glue("{Sequence_ID} [organism={scientificName}] [isolate={Sequence_ID}] NADH dehydrogenase subunit 1 (ND1) gene, complete cds")) |> 
+    dplyr::mutate(Sequence_ID_iso=Sequence_ID) |>
+    dplyr::mutate(Sequence_ID=glue::glue("{Sequence_ID}_nd1")) |>
+    dplyr::mutate(label=glue::glue("{Sequence_ID} [organism={scientificName}] [isolate={Sequence_ID_iso}] NADH dehydrogenase subunit 1 (ND1) gene, complete cds")) |> 
     tab2fas(seqcol="nucleotides",namecol="label")
 seqs.nd1.fa |> ape::write.FASTA(here::here("temp/nd1.genbank.fasta"))
 
@@ -166,6 +169,7 @@ ggtree::ggsave(filename=here::here("temp/nd5.genbank.pdf"),plot=pp,limitsize=FAL
 # write out
 tissues.meta.sm |> 
     dplyr::filter(Sequence_ID %in% names(seqs.nd5)) |> 
+    dplyr::mutate(Sequence_ID=glue::glue("{Sequence_ID}_nd5")) |> 
     dplyr::select(-scientificName) |> 
     readr::write_tsv(here("temp/nd5.genbank.tsv"))
 
@@ -173,10 +177,12 @@ tissues.meta.sm |>
 seqs.nd5.fa <- fas2tab(seqs.nd5) |> 
     dplyr::rename(Sequence_ID=label) |> 
     dplyr::left_join(tissues.meta.sm,by=dplyr::join_by(Sequence_ID)) |> 
+    dplyr::mutate(Sequence_ID_iso=Sequence_ID) |>
+    dplyr::mutate(Sequence_ID=glue::glue("{Sequence_ID}_nd5")) |>
     dplyr::mutate(length=stringr::str_length(nucleotides)) |> # 1057
     dplyr::mutate(label=dplyr::case_when(
-        length < 1057 ~ glue::glue("{Sequence_ID} [organism={scientificName}] [isolate={Sequence_ID}] NADH dehydrogenase subunit 5 (ND5), partial cds"),
-        length > 1057 ~ glue::glue("{Sequence_ID} [organism={scientificName}] [isolate={Sequence_ID}] mitochondrion ND5 and ND6 genes, partial cds")
+        length < 1057 ~ glue::glue("{Sequence_ID} [organism={scientificName}] [isolate={Sequence_ID_iso}] NADH dehydrogenase subunit 5 (ND5), partial cds"),
+        length > 1057 ~ glue::glue("{Sequence_ID} [organism={scientificName}] [isolate={Sequence_ID_iso}] mitochondrion ND5 and ND6 genes, partial cds")
         )) |> 
     tab2fas(seqcol="nucleotides",namecol="label")
 seqs.nd5.fa |> ape::write.FASTA(here::here("temp/nd5.genbank.fasta"))
