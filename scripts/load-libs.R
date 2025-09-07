@@ -15,6 +15,13 @@ suppressPackageStartupMessages({
     library("ggthemes")
     library("svglite")
     library("marginaleffects")
+    library("ape")
+    library("ggtree")
+    library("castor")
+    library("withr")
+    library("randomcoloR")
+    library("ips")
+    source("https://raw.githubusercontent.com/boopsboops/UTILITIES/refs/heads/main/RScripts/tab2fas.R")
 })
 
 # some options
@@ -25,10 +32,31 @@ options(width=180)
 ##### LOAD FUNS #####
 #####################
 
+# function to convert lat-lon to GenBank format
+convert_latitude <- function(lat) {
+    dplyr::case_when(
+        lat < 0 ~ glue::glue("{as.character(round(abs(lat),2))} S"),
+        lat > 0 ~ glue::glue("{as.character(round(lat,2))} N"),
+        .default=NA
+        )
+}
+
+
+# function to convert lat-lon to GenBank format
+convert_longitude <- function(lon) {
+    dplyr::case_when(
+        lon < 0 ~ glue::glue("{as.character(round(abs(lon),2))} W"),
+        lon > 0 ~ glue::glue("{as.character(round(lon,2))} E"),
+        .default=NA
+        )
+}
+
+
 # function to not print some code to screen
 dont_print <- function(expr) {
     invisible(force(expr))
 }
+
 
 # function to fourth power
 power4 <- function(x) {
@@ -61,6 +89,11 @@ report <- function(text,type) {
         cli::cli_text("")
         cli::cli_text("")
         cli::cli_text(text)
+    } else if (type=="f") {
+        cli::cli_text("")
+        cli::cli_text("")
+        cli::cli_alert_danger(text)
+        cli::cli_text("")
     } 
 }
 
