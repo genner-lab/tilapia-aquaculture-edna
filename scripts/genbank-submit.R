@@ -85,7 +85,8 @@ tissues.suppl.nd1 <- tissues.suppl |>
     dplyr::distinct(Tissue_code) |> 
     dplyr::pull(Tissue_code)
 
-# check both are same
+# subset those in suppl table and check both are same
+seqs.nd1 <- seqs.nd1[names(seqs.nd1) %in% tissues.suppl.nd1]
 if(setequal(names(seqs.nd1),tissues.suppl.nd1)) {report("All codes match",type="s")} else {report("Codes DO NOT match",type="f")}
 
 # make phylogenetic tree and root
@@ -141,7 +142,8 @@ tissues.suppl.nd5 <- tissues.suppl |>
     dplyr::distinct(Tissue_code) |> 
     dplyr::pull(Tissue_code)
 
-# check both are same
+# subset those in suppl table and check both are same
+seqs.nd5 <- seqs.nd5[names(seqs.nd5) %in% tissues.suppl.nd5]
 if(setequal(names(seqs.nd5),tissues.suppl.nd5)) {report("All codes match",type="s")} else {report("Codes DO NOT match",type="f")}
 
 # make phylogenetic tree and root
