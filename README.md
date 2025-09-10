@@ -46,4 +46,4 @@ scripts/models.R
 * `.gitignore` - files and directories ignored by git
 * `.Rprofile` - activates renv
 * `.R-version` - required version of R (used by renv-installer)
-* Collins_eDNAAssay_9June2025_SupportingInformation.xlsx - Supporting Information for publication
+* `Collins_eDNAAssay_9June2025_SupportingInformation.xlsx` - Supporting Information for publication
