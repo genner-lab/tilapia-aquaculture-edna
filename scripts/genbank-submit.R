@@ -191,6 +191,23 @@ seqs.nd5.fa |> ape::write.FASTA(here::here("temp/nd5.genbank.fasta"))
 
 
 ###############
+## FIX SEQID ##
+###############
+
+# read 
+table.s1 <- readr::read_csv(here::here("temp/TableS1.csv"),show_col_types=FALSE)
+seqids <- readr::read_tsv(here::here("temp/seqids.txt"),show_col_types=FALSE)
+
+# check names match
+if(setequal(dplyr::pull(table.s1,gbcode),dplyr::pull(seqids,gbcode))) {report("All codes match",type="s")} else {report("Codes DO NOT match",type="f")}
+
+# merge and write out
+table.s1 |> 
+    dplyr::left_join(seqids,by=join_by(gbcode)) |> 
+    readr::write_csv(here::here("temp/TableS1_annotated.csv"))
+
+
+###############
 ##### END #####
 ###############
 
