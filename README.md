@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16699184.svg)](https://doi.org/10.5281/zenodo.16699184)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16699183.svg)](https://doi.org/10.5281/zenodo.16699183)
 
 # Tilapia Aquaculture eDNA
 
@@ -25,7 +25,6 @@ scripts/qpcr.R
 scripts/models.R
 ```
 
-
 ### Repository contents
 
 * **`data/`** - Raw and processed data used in analyses.
@@ -36,6 +35,8 @@ scripts/models.R
     - `tissues-master.csv` - table containing metadata from tissue samples
 * **`renv/`** - Settings for the R environment.
 * **`scripts/`** - R scripts to run analyses.
+    - `genbank-submit.R` - script to generate and check files to submit to GenBank
+    - `load-libs.R` - script to load package libraries and custom functions
     - `models.R` - script to run site occupancy models
     - `qpcr.R` - script to process raw qPCR data
 * **`temp/`** - Temporary file directory ignored by git.
