@@ -1,0 +1,159 @@
+sourceDatabase,accession,tissueCode,scientificName,speciesInferred,role
+Nucleotide,AY597335,NA,Oreochromis mossambicus,Oreochromis mossambicus?,GenBank
+Nucleotide,NC_007231,NA,Oreochromis mossambicus,Oreochromis mossambicus?,GenBank
+Nucleotide,GU477629,NA,Oreochromis aureus 'strain Guangdong',Oreochromis aureus,GenBank
+Nucleotide,GU477630,NA,Oreochromis aureus 'strain America',Oreochromis aureus,GenBank
+Nucleotide,GU477627,NA,Oreochromis niloticus 'strain Guangdong',Oreochromis aureus,GenBank
+Nucleotide,GU370125,NA,Oreochromis aureus,Oreochromis aureus,Reference sequence
+Nucleotide,NC_013750,NA,Oreochromis aureus,Oreochromis aureus,Reference sequence
+SRA,ERX6793871,NA,Oreochromis rukwaensis,Oreochromis rukwaensis,Reference sequence
+Nucleotide,GU238433,NA,Oreochromis niloticus,Oreochromis mossambicus?,GenBank
+Nucleotide,NC_013663,NA,Oreochromis niloticus,Oreochromis mossambicus?,GenBank
+Nucleotide,MK951678,NA,Oreochromis tanganicae,Oreochromis tanganicae,Reference sequence
+SRA,ERX12704460,NA,Oreochromis shiranus,Oreochromis shiranus,Reference sequence
+SRA,ERX6793852,NA,Oreochromis shiranus chilwae,Oreochromis shiranus chilwae,Reference sequence
+Nucleotide,KM434157,NA,Oreochromis niloticus x Oreochromis aureus,Oreochromis aureus,GenBank
+Nucleotide,NC_025669,NA,Oreochromis niloticus x Oreochromis aureus,Oreochromis aureus,GenBank
+Nucleotide,GU477624,NA,Oreochromis niloticus 'strain GIFT',Oreochromis sp. 'gift strain',GenBank
+Nucleotide,MG603674,NA,Oreochromis andersonii,Oreochromis andersonii,Reference sequence
+Nucleotide,NC_037019,NA,Oreochromis andersonii,Oreochromis andersonii,Reference sequence
+Nucleotide,MG603675,NA,Oreochromis macrochir,Oreochromis macrochir,Reference sequence
+Nucleotide,NC_037020,NA,Oreochromis macrochir,Oreochromis macrochir,Reference sequence
+SRA,ERX6793927,NA,Oreochromis esculentus,Oreochromis esculentus,Reference sequence
+Nucleotide,KM654981,NA,Oreochromis esculentus,Oreochromis leucostictus,GenBank
+Nucleotide,NC_025555,NA,Oreochromis esculentus,Oreochromis leucostictus,GenBank
+Nucleotide,KM658974,NA,Coptodon zillii,Coptodon zillii,Reference sequence
+Nucleotide,NC_026110,NA,Coptodon zillii,Coptodon zillii,Reference sequence
+Nucleotide,NC_018560,NA,Astatotilapia calliptera,Astatotilapia calliptera,Reference sequence
+Nucleotide,JN628855,NA,Astatotilapia calliptera,Astatotilapia calliptera,Reference sequence
+SRA,ERX4446015,NA,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+Nucleotide,NC_009057,NA,Oreochromis sp. KM-2006,Oreochromis niloticus,GenBank
+Nucleotide,GU370126,NA,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+Nucleotide,AP009126,NA,Oreochromis sp. KM-2006,Oreochromis niloticus,GenBank
+Nucleotide,GU477625,NA,Oreochromis niloticus 'strain Egypt',Oreochromis niloticus,GenBank
+Nucleotide,GU477631,NA,Oreochromis sp. 'red tilapia',Oreochromis niloticus,GenBank
+Nucleotide,GU477628,NA,Oreochromis niloticus 'strain America',Oreochromis niloticus,GenBank
+Nucleotide,GU477626,NA,Oreochromis niloticus 'strain Philippines',Oreochromis niloticus,GenBank
+SRA,ERX4488792,NA,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+Nucleotide,NC_014060,NA,Oreochromis sp. 'red tilapia',Oreochromis aureus,GenBank
+Nucleotide,HM067614,NA,Oreochromis sp. 'red tilapia',Oreochromis aureus,GenBank
+SRA,ERX6793889,NA,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+Nucleotide,NC_026109,NA,Oreochromis variabilis,Oreochromis leucostictus,GenBank
+Nucleotide,KM658973,NA,Oreochromis variabilis,Oreochromis leucostictus,GenBank
+This study - leu+ile (ND1),PX311104,366,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+This study - leu+ile (ND1),PX311105,367,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+This study - leu+ile (ND1),PX311107,MG358,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+This study - leu+ile (ND1),PX311108,MG359,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+This study - leu+ile (ND1),PX311115,MG726,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+This study - leu+ile (ND1),PX311116,MG727,Oreochromis leucostictus,Oreochromis leucostictus,Reference sequence
+This study - leu+ile (ND1),PX311155,TZ036,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311156,TZ037,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311161,TZ042,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311179,TZ060,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311180,TZ061,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311181,TZ062,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311183,TZ064,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311185,TZ066,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311186,TZ067,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311191,TZ073,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311197,TZ079,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311198,TZ080,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311214,TZ146,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311218,TZ151,Oreochromis leucostictus,Oreochromis leucostictus,Haplotyping
+This study - leu+ile (ND1),PX311117,T2J5,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311118,T2J6,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311134,TZ011,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311142,TZ019,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311151,TZ032,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311152,TZ033,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311153,TZ034,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311154,TZ035,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311175,TZ056,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311176,TZ057,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311177,TZ058,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311178,TZ059,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311182,TZ063,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311184,TZ065,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311195,TZ077,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311196,TZ078,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311199,TZ081,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311200,TZ082,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311204,TZ094,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311205,TZ095,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311207,TZ125,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311208,TZ126,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311210,TZ130,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311211,TZ133,Oreochromis urolepis,Oreochromis urolepis,Reference sequence
+This study - leu+ile (ND1),PX311213,TZ144,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311215,TZ148,Oreochromis urolepis,Oreochromis urolepis,Haplotyping
+This study - leu+ile (ND1),PX311122,P2J1,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+This study - leu+ile (ND1),PX311123,P2J2,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+This study - leu+ile (ND1),PX311124,TZ001,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311125,TZ002,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311126,TZ003,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311127,TZ004,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311128,TZ005,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311130,TZ007,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311131,TZ008,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311132,TZ009,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311133,TZ010,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311136,TZ013,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311137,TZ014,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311138,TZ015,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311139,TZ016,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311140,TZ017,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311141,TZ018,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311143,TZ020,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311144,TZ023,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311145,TZ024,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311146,TZ025,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311147,TZ026,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311148,TZ027,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311149,TZ028,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311150,TZ029,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311157,TZ038,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311158,TZ039,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311159,TZ040,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311160,TZ041,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311162,TZ043,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311163,TZ044,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311164,TZ045,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311165,TZ046,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311166,TZ047,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311167,TZ048,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311168,TZ049,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311169,TZ050,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311170,TZ051,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311171,TZ052,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311172,TZ053,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311173,TZ054,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311174,TZ055,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311189,TZ070,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311190,TZ071,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311192,TZ074,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311216,TZ149,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311217,TZ150,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311219,TZ152,Oreochromis niloticus,Oreochromis niloticus,Haplotyping
+This study - leu+ile (ND1),PX311109,MG433,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+This study - leu+ile (ND1),PX311110,MG434,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+This study - leu+ile (ND1),PX311111,MG620,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+This study - leu+ile (ND1),PX311112,MG621,Oreochromis niloticus,Oreochromis niloticus,Reference sequence
+This study - leu+ile (ND1),PX311106,MG101,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311113,MG674,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311119,Site16A,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311120,Site16B,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311121,Site16C,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311135,TZ012,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311220,TZ153,Coptodon rendalli,Coptodon rendalli,Reference sequence
+This study - leu+ile (ND1),PX311187,TZ068,Astatotilapia gigliolii,Astatotilapia gigliolii,Reference sequence
+This study - leu+ile (ND1),PX311188,TZ069,Astatotilapia gigliolii,Astatotilapia gigliolii,Reference sequence
+This study - leu+ile (ND1),PX311193,TZ075,Astatotilapia gigliolii,Astatotilapia gigliolii,Reference sequence
+This study - leu+ile (ND1),PX311201,TZ083,Astatotilapia sp. 'Ruaha red cheek',Astatotilapia sp. 'Ruaha red cheek',Reference sequence
+This study - leu+ile (ND1),PX311202,TZ084,Astatotilapia sp. 'Ruaha red cheek',Astatotilapia sp. 'Ruaha red cheek',Reference sequence
+This study - leu+ile (ND1),PX311203,TZ085,Astatotilapia sp. 'Ruaha red cheek',Astatotilapia sp. 'Ruaha red cheek',Reference sequence
+This study - leu+ile (ND1),PX311206,TZ123,Astatotilapia sp. 'Ruaha red cheek',Astatotilapia sp. 'Ruaha red cheek',Reference sequence
+This study - leu+ile (ND1),PX311212,TZ139,Astatotilapia sp. 'Ruaha red cheek',Astatotilapia sp. 'Ruaha red cheek',Reference sequence
+This study - leu+ile (ND1),PX311129,TZ006,Oreochromis sp.,Oreochromis sp. 'gift strain',Reference sequence
+This study - leu+ile (ND1),PX311194,TZ076,Oreochromis sp.,Oreochromis sp. 'mtera',Reference sequence
+This study - leu+ile (ND1),PX311114,MG675,Tilapia sparrmanii,Tilapia sparrmanii,Reference sequence
+This study - leu+ile (ND1),PX311209,TZ127,Pseudocrenilabrus sp.,Pseudocrenilabrus sp.,Reference sequence

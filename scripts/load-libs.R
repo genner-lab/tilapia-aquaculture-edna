@@ -17,10 +17,12 @@ suppressPackageStartupMessages({
     library("marginaleffects")
     library("ape")
     library("ggtree")
+    library("treeio")
     library("castor")
     library("withr")
     library("randomcoloR")
     library("ips")
+    library("phangorn")
     source("https://raw.githubusercontent.com/boopsboops/UTILITIES/refs/heads/main/RScripts/tab2fas.R")
 })
 
