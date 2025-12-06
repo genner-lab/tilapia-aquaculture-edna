@@ -1,0 +1,203 @@
+Genome Accession	Sample_ID	mtDNA_haplogroup	Genotypic_ancestry	O_leucostictus_ancestry	O_niloticus_ancestry	O_urolepis_ancestry	O_esculentus_ancestry
+ERR7224472	14_1D9	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224473	14_1E1	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333603	2B3-A	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333604	2B4-A	O. niloticus	O. niloticus (0.99)	0	99	0	0
+ERR13333605	2B5-A	O. niloticus	O. esculentus (0.01), O. niloticus (0.98)	0	98	0	1
+ERR13333562	F3	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333563	F4	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333387	SUA-01-A02	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333347	SUA-01-A04	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333362	SUA-01-A06	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333388	SUA-01-A07	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333396	SUA-01-A08	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224456	T1D3	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224458	T1D5	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224459	T1E3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224463	T1E5	O. leucostictus	O. leucostictus (0.44), O. niloticus (0.14), O. urolepis (0.36)	44	14	36	0
+ERR7224464	T1F1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224467	T1F10	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224465	T1F5	O. urolepis	O. leucostictus (0.49), O. urolepis (0.51)	49	0	51	0
+ERR7224466	T1F8	O. urolepis	O. leucostictus (0.26), O. urolepis (0.70)	26	0	70	0
+ERR13333456	T1G10	O. urolepis	O. leucostictus (0.26), O. niloticus (0.05), O. urolepis (0.65)	26	5	65	0
+ERR7224468	T1G3	O. urolepis	O. niloticus (0.32), O. urolepis (0.64)	0	32	64	0
+ERR7224475	T1G7	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224476	T1G8	O. urolepis	O. niloticus (0.48), O. urolepis (0.51)	0	48	51	0
+ERR13333462	T1H08	O. urolepis	O. leucostictus (0.33), O. urolepis (0.63)	33	0	63	0
+ERR7224460	T1H2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333467	T1I08	O. urolepis	O. niloticus (0.32), O. urolepis (0.65)	0	32	65	0
+ERR7224461	T1I7	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224462	T1I9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333472	T1J05	O. urolepis	O. leucostictus (0.25), O. urolepis (0.72)	25	0	72	0
+ERR7224469	T1J2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333477	T2A02	O. leucostictus	O. leucostictus (0.29), O. niloticus (0.48), O. urolepis (0.18)	29	48	18	0
+ERR13333441	T2A04	O. urolepis	O. leucostictus (0.70), O. urolepis (0.25)	70	0	25	0
+ERR13333447	T2A07	O. urolepis	O. niloticus (0.36), O. urolepis (0.61)	0	36	61	0
+ERR13333452	T2B01	O. urolepis	O. leucostictus (0.25), O. urolepis (0.71)	25	0	71	0
+ERR13333457	T2C04	O. niloticus	O. niloticus (0.70), O. urolepis (0.25)	0	70	25	0
+ERR13333463	T2C05	O. leucostictus	O. leucostictus (0.57), O. urolepis (0.40)	57	0	40	0
+ERR13333468	T2C06	O. niloticus	O. niloticus (0.79), O. urolepis (0.16)	0	79	16	0
+ERR13333473	T2C09	O. urolepis	O. leucostictus (0.16), O. urolepis (0.80)	16	0	80	0
+ERR7224474	T2C10	O. urolepis	O. leucostictus (0.49), O. urolepis (0.51)	49	0	51	0
+ERR13333478	T2D06	O. urolepis	O. leucostictus (0.51), O. urolepis (0.49)	51	0	49	0
+ERR7224477	T2D8	O. urolepis	O. leucostictus (0.08), O. urolepis (0.88)	0	0	100	0
+ERR13333634	T2E09	O. urolepis	O. niloticus (0.21), O. urolepis (0.74)	0	21	74	0
+ERR13333635	T2E10	O. urolepis	O. leucostictus (0.11), O. niloticus (0.46), O. urolepis (0.39)	11	46	39	0
+ERR7224478	T2E5	O. urolepis	O. leucostictus (0.53), O. urolepis (0.41)	53	0	41	0
+ERR13333636	T2F06	O. urolepis	O. niloticus (0.46), O. urolepis (0.54)	0	46	54	0
+ERR13333637	T2G08	O. urolepis	O. niloticus (0.47), O. urolepis (0.53)	0	47	53	0
+ERR13333638	T2H01	O. niloticus	O. niloticus (0.91), O. urolepis (0.03)	0	100	0	0
+ERR13333639	T2H04	O. urolepis	O. leucostictus (0.22), O. urolepis (0.73)	22	0	73	0
+ERR13333640	T2H06	O. urolepis	O. niloticus (0.69), O. urolepis (0.26)	0	69	26	0
+ERR13333641	T2H08	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR13333642	T2H10	O. urolepis	O. leucostictus (0.26), O. urolepis (0.70)	26	0	70	0
+ERR13333643	T2I02	O. urolepis	O. leucostictus (0.15), O. urolepis (0.81)	15	0	81	0
+ERR13333644	T2I05	O. urolepis	O. leucostictus (0.10), O. urolepis (0.86)	10	0	86	0
+ERR13333645	T2I06	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333646	T2I08	O. urolepis	O. leucostictus (0.28), O. urolepis (0.68)	28	0	68	0
+ERR7224453	T2I10	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR4508020	T2J5	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224454	T3D1	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224455	T3D7	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333460	T5F03	O. urolepis	O. urolepis (0.25), O. niloticus (0.71)	0	71	25	0
+ERR13333465	T5F05	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333470	T5F10	O. urolepis	O. urolepis (0.19), O. niloticus (0.77)	0	77	19	0
+ERR13333475	T5G01	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333445	T5G06	O. urolepis	O. urolepis (0.05), O. niloticus (0.90)	0	90	5	0
+ERR13333450	T5H08	Exceptional haplotype	O. urolepis (0.13), O. niloticus (0.82)	Not considered	Not considered	Not considered	Not considered
+ERR13333455	T5I03	Exceptional haplotype	O. urolepis (0.10), O. niloticus (0.85)	Not considered	Not considered	Not considered	Not considered
+ERR13333461	T5I05	Exceptional haplotype	O. niloticus (1.00)	Not considered	Not considered	Not considered	Not considered
+ERR13333466	T5I06	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333471	T5I10	O. urolepis	O. urolepis (0.09), O. niloticus (0.85)	0	85	9	0
+ERR13333476	T5J09	O. niloticus	O. niloticus (1.00)	0	100	0	0
+"ERR4552330	"	T6A2	Exceptional haplotype	O. urolepis (1.00)	Not considered	Not considered	Not considered	Not considered
+ERR7224479	T6A3	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224480	T6A4	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224559	T6A5	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224481	T6A6	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224564	T6A7	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224482	T6A8	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224487	T6B10	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224483	T6B2	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224484	T6B5	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224485	T6B6	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224486	T6B9	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333498	T6D10	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333492	T6D4	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333493	T6D5	O. urolepis	O. niloticus (1.00)	0	100	0	0
+ERR13333494	T6D6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333960	T6D7	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333496	T6D8	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333497	T6D9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333499	T6E1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333504	T6E10	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333500	T6E2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333501	T6E3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224523	T6E4	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224524	T6E5	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224525	T6E6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333502	T6E8	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333647	T6E9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333649	T6F1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333648	T6F10	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333437	T6F10_A	O. niloticus	O. urolepis (0.20), O. niloticus (0.75)	0	75	20	0
+ERR13333505	T6F2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333506	T6F3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333507	T6F8	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333508	T6F9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224538	T6G10_A	O. urolepis	O. urolepis (0.90), O. esculentus (0.03), O. leucostictus (0.04)	4	0	90	3
+ERR13333442	T6G10_B	Exceptional haplotype	O. urolepis (0.34), O. niloticus (0.63)	Not considered	Not considered	Not considered	Not considered
+ERR7224562	T6G4	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224567	T6G9	O. urolepis	O. urolepis (0.72), O. niloticus (0.24)	0	24	72	0
+ERR7224566	T6H10	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224561	T6H9	O. urolepis	O. urolepis (0.92), O. leucostictus (0.05)	5	0	92	0
+ERR13333453	T6I09	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224571	T6I1	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224541	T6I2	O. urolepis	O. leucostictus (1.00)	100	0	0	0
+ERR7224545	T6I3	O. urolepis	O. urolepis (0.28), O. niloticus (0.14), O. leucostictus (0.53)	53	14	28	0
+ERR7224549	T6I4	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224553	T6I5	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224557	T6I6	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR13333459	T6J06	O. urolepis	O. urolepis (0.99), O. leucostictus (0.01)	1	0	99	0
+ERR13333464	T6J07	O. urolepis	O. urolepis (0.97), O. leucostictus (0.03)	3	0	97	0
+ERR7224568	T6J6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333469	T7A01	O. urolepis	O. urolepis (0.97), O. leucostictus (0.02)	2	0	97	0
+ERR13333474	T7A06	O. urolepis	O. urolepis (0.34), O. niloticus (0.64)	0	64	34	0
+ERR13333438	T7A07	O. urolepis	O. urolepis (0.92), O. niloticus (0.08)	0	8	92	0
+ERR13333443	T7A08	O. urolepis	O. urolepis (0.94), O. leucostictus (0.06)	6	0	94	0
+ERR13333449	T7A09	O. urolepis	O. urolepis (0.96), O. leucostictus (0.04)	4	0	96	0
+ERR7224520	T7A1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333454	T7A10	O. urolepis	O. urolepis (0.96), O. leucostictus (0.03)	3	0	96	0
+ERR7224522	T7A10	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224572	T7A2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224542	T7A3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224546	T7A6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224521	T7A7	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224550	T7A8	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224554	T7A9	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224558	T7B1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333451	T7B10	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224563	T7B2	O. urolepis	O. urolepis (0.27), O. niloticus (0.16), O. leucostictus (0.52)	52	16	27	0
+ERR13333650	T7C2	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR13333651	T7C3	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224516	T7E1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224517	T7E2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224551	T7E3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224518	T7E4	O. urolepis	O. urolepis (0.54), O. leucostictus (0.43)	43	0	54	0
+ERR7224555	T7E5	O. urolepis	O. urolepis (0.49), O. leucostictus (0.48)	48	0	49	0
+ERR7224560	T7E6	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224565	T7E7	O. urolepis	O. urolepis (0.14), O. leucostictus (0.81)	81	0	14	0
+ERR7224570	T7E8	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224540	T7E9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224544	T7F1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224498	T7F10	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224519	T7F2	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224548	T7F3	O. leucostictus	O. leucostictus (1.00)	100	0	0	0
+ERR7224552	T7F5	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR7224556	T7F6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333440	T7G03	O. urolepis	O. urolepis (0.99), O. leucostictus (0.00)	0	0	99	0
+ERR13333446	T7G05	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224499	T7G1	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR7224500	T7H7	Exceptional haplotype	O. niloticus (1.00)	Not considered	Not considered	Not considered	Not considered
+ERR7224501	T7H8	Exceptional haplotype	O. niloticus (1.00)	Not considered	Not considered	Not considered	Not considered
+ERR7224503	T7I10	Exceptional haplotype	O. urolepis (0.32), O. niloticus (0.66)	Not considered	Not considered	Not considered	Not considered
+ERR7224502	T7I7	O. urolepis	O. urolepis (0.30), O. niloticus (0.67)	0	67	30	0
+ERR13333333	T9A1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333341	T9A10	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333340	T9A2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333348	T9A3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333355	T9A4	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333363	T9A5	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333367	T9A6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333374	T9A7	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333381	T9A8	O. niloticus	O. niloticus (0.99)	0	99	0	0
+ERR13333334	T9A9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333349	T9B1	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333357	T9B10	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333356	T9B2	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333364	T9B3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333368	T9B4	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333376	T9B5	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333382	T9B6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333335	T9B7	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333342	T9B8	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333350	T9B9	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333369	T9C2	O. niloticus	O. esculentus (0.01), O. niloticus (0.98)	0	98	0	1
+ERR13333377	T9C3	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333383	T9C4	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333336	T9C5	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333343	T9C6	O. niloticus	O. niloticus (1.00)	0	100	0	0
+ERR13333360	T9I10	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333385	T9I6	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333338	T9I7	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333345	T9I8	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333353	T9I9	Exceptional haplotype	O. urolepis (1.00)	Not considered	Not considered	Not considered	Not considered
+ERR13333366	T9J1	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333373	T9J10	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333372	T9J2	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333380	T9J3	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333386	T9J4	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333339	T9J5	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333346	T9J6	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333354	T9J7	O. urolepis	O. urolepis (1.00)	0	0	100	0
+ERR13333361	T9J8	O. urolepis	O. urolepis (1.00)	0	0	100	0
