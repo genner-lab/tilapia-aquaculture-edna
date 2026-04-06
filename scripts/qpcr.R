@@ -142,6 +142,9 @@ qcr.results.joined <- qcr.results.ext |>
     dplyr::mutate(localityID=glue::glue("{localityID}-{nickname}"), localitySite=stringr::str_replace_all(localitySite,"-",glue::glue("-{nickname}-")))
 # qcr.results.joined |> filter(extractionTubeLabel=="10.06.19/01")
 
+# remove the undiluted samples
+qcr.results.joined <- qcr.results.joined |> dplyr::filter(dilutionFactor != 1)
+
 # get df of names 
 dont_print({
     qcr.results.names <- qcr.results.joined |> dplyr::distinct(localityID,localitySite,extractionTubeLabel) 
